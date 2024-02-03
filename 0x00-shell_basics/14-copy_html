@@ -1,22 +1,2 @@
 #!/bin/bash
-
-# Define the source and destination directories
-src_dir=$(pwd)
-dest_dir=$(dirname "$src_dir")
-
-# Find HTML files in the current working directory
-find "$src_dir" -maxdepth 1 -name '*.html' -type f | while read -r html_file; do
-    # Extract the filename without path
-    filename=$(basename "$html_file")
-
-    # Check if the file doesn't exist in the destination or is newer
-    if [ ! -e "$dest_dir/$filename" ] || [ "$html_file" -nt "$dest_dir/$filename" ]; then
-        # Copy the file to the destination directory
-        cp "$html_file" "$dest_dir/"
-        echo "Copied: $filename"
-    else
-        echo "Skipped (already exists or older): $filename"
-    fi
-done
-
-echo "Copy process completed."
+src_dir=$(pwd); dest_dir=$(dirname "$src_dir"); find "$src_dir" -maxdepth 1 -name '*.html' -type f | while read -r html_file; do filename=$(basename "$html_file"); [ ! -e "$dest_dir/$filename" ] || [ "$html_file" -nt "$dest_dir/$filename" ] && cp "$html_file" "$dest_dir/"; done
