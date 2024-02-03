@@ -1,3 +1,2 @@
 #!/bin/bash
-src_dir=$(pwd); dest_dir=$(dirname "$src_dir")
-find "$src_dir" -maxdepth 1 -name '*.html' -type f | while read -r html_file; do filename=$(basename "$html_file") ; [ ! -e "$dest_dir/$filename" ] || [ "$html_file" -nt "$dest_dir/$filename" ] && cp "$html_file" "$dest_dir/" ; done
+cp -un *.html ../
