@@ -1,0 +1,3 @@
+#!/bin/bash
+file_path="./hello"
+chmod +x "$file_path"
