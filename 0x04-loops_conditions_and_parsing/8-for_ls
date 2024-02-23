@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
-# ls using for loop
-
+# Using a for loop to display the content of the current directory
 for file in *; do
-  echo "$file" | cut -d '-' -f 2;
+    # Check if the file is not a hidden file (does not start with a dot)
+    if [[ ! $file == .* ]]; then
+        # Extract the part of the name after the first dash
+        name_part=$(echo "$file" | cut -d'-' -f2-)
+        # Display the result in a list format
+        echo "- $name_part"
+    fi
 done
