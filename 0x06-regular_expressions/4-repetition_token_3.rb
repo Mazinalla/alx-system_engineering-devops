@@ -1,2 +1,2 @@
 #!/usr/bin/env ruby
-puts ARGV[0].scan(/hb(t{1,4})?n/).join
+puts ARGV[0].scan(/^hb(tt{2,}|t{3,})n$|^hbt{3,}n$|^hbn$/).join
