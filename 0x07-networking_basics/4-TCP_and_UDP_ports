@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Use netstat to display listening sockets and extract relevant information
+netstat -tulpn 2>/dev/null | awk '/^tcp/ || /^udp/ {
+    split($4, a, ":");
+    port = a[length(a)];
+    printf "%-15s %-5s ", port, $7;
+    split($NF, b, "/");
+    pid = b[1];
+    printf "%-15s ", pid;
+    cmd = "";
+    for (i=2; i<=NF; i++) {
+        cmd = cmd $i " ";
+    }
+    printf "%s\n", cmd;
+}'
