@@ -1,0 +1,1 @@
+the concepts of servers and how to connect via Ssh
