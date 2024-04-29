@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Update package list
+apt update
+
+# Install Nginx
+apt install -y nginx
+
+# Add custom header configuration to Nginx
+echo 'server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name _;
+
+    add_header X-Served-By $hostname;
+
+    location / {
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+    }
+}' > /etc/nginx/sites-available/default
+
+# Restart Nginx to apply changes
+systemctl restart nginx
