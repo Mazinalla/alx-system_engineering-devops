@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import requests
 import re
 from collections import defaultdict
