@@ -13,7 +13,11 @@ def number_of_subscribers(subreddit):
     try:
         response = requests.get(
             f'https://www.reddit.com/r/{subreddit}/about.json',
-            headers={'User-Agent': '0x16-api_advanced:project:v1.0.0 (by /u/firdaus_cartoon_jr)'}
+            headers={'User-Agent': (
+                '0x16-api_advanced:project:v1.0.0 (by /u/firdaus_cartoon_jr)'
+                )
+                }
+
         )
         # Check if the request was successful
         if response.status_code == 200:
@@ -24,4 +28,3 @@ def number_of_subscribers(subreddit):
             return 0
     except (requests.RequestException, ValueError, KeyError):
         return 0
-
