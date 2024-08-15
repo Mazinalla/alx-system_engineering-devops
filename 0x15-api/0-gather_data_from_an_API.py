@@ -23,7 +23,7 @@ def get_employee_info(emp_id):
         todos_data = todos_response.json()
 
         # Extract employee name
-        emp_name = user_data['name']
+        emp_name = user_data['name'].strip()
 
         # Calculate total and completed tasks
         t_t = len(todos_data)
