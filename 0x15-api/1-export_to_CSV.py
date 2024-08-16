@@ -1,9 +1,3 @@
-#!/usr/bin/python3
-
-"""
-extend my previous Python script to export data in the CSV format.
-"""
-
 import csv
 import requests
 import sys
@@ -29,6 +23,8 @@ if __name__ == "__main__":
     tasks_response = requests.get(tasks_url)
     tasks = tasks_response.json()
 
+    print(f"Number of tasks fetched: {len(tasks)}")
+
     # Prepare CSV data
     csv_data = []
     for task in tasks:
@@ -38,6 +34,10 @@ if __name__ == "__main__":
             task.get("completed"),
             task.get("title")
         ])
+
+    # Debugging: Print tasks before writing to CSV
+    for task in csv_data:
+        print(task)
 
     # Write to CSV file
     csv_filename = f"{user_id}.csv"
