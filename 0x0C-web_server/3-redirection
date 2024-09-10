@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# Configure Nginx server so that the server is redirecting to another page.
+
+# Install Nginx if it's not already installed
+if ! dpkg -l | grep -q nginx; then
+    echo "Installing Nginx..."
+    sudo apt update
+    sudo apt install -y nginx
+else
+    echo "Nginx is already installed."
+fi
+
+# Backup existing Nginx configuration
+echo "Backing up existing Nginx configuration..."
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+
+# Configure redirection
+echo "Configuring redirection..."
+sudo tee /etc/nginx/sites-available/default > /dev/null <<EOL
+server {
+    listen 80;
+    server_name _;
+
+    # Redirect /redirect_me to another page
+    location /redirect_me {
+        return 301 https://example.com/another_page;
+    }
+
+    # Default location block
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+}
+EOL
+
+# Test the Nginx configuration
+echo "Testing Nginx configuration..."
+sudo nginx -t
+
+# Restart Nginx to apply changes
+echo "Restarting Nginx..."
+sudo systemctl restart nginx
+
+echo "Nginx redirection configuration complete."
