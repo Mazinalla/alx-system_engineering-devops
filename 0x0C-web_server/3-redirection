@@ -1,44 +1,34 @@
-#!/usr/bin/env bash
-# Configure Nginx server so that the server is redirecting to another page.
+#!/bin/bash
+# Configure your Nginx server so that /redirect_me is redirecting to another page.
 
-# Install Nginx if it's not already installed
-if ! dpkg -l | grep -q nginx; then
-    echo "Installing Nginx..."
-    sudo apt update
-    sudo apt install -y nginx
-else
-    echo "Nginx is already installed."
-fi
+# Step 1: Update package lists and install Nginx
+sudo apt update -y
+sudo apt install nginx -y
 
-# Backup existing Nginx configuration
-echo "Backing up existing Nginx configuration..."
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-
-# Configure redirection
-echo "Configuring redirection..."
-sudo tee /etc/nginx/sites-available/default > /dev/null <<EOL
+# Step 2: Configure Nginx for the redirection
+# Create a new server block configuration
+sudo tee /etc/nginx/sites-available/default > /dev/null <<EOF
 server {
-    listen 80;
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
     server_name _;
 
-    # Redirect /redirect_me to another page
+    # Redirect /redirect_me to the desired page
     location /redirect_me {
-        return 301 https://example.com/another_page;
+        return 301 https://www.example.com;  # Change to your desired URL
     }
 
-    # Default location block
+    # Default root directory
     location / {
-        try_files \$uri \$uri/ =404;
+        root /var/www/html;
+        index index.html index.htm;
     }
 }
-EOL
+EOF
 
-# Test the Nginx configuration
-echo "Testing Nginx configuration..."
-sudo nginx -t
-
-# Restart Nginx to apply changes
-echo "Restarting Nginx..."
+# Step 3: Restart Nginx to apply the changes
 sudo systemctl restart nginx
 
-echo "Nginx redirection configuration complete."
+# Step 4: Enable Nginx to start on boot
+sudo systemctl enable nginx
